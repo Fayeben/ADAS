@@ -32,7 +32,9 @@ import os
 import io
 import os.path as osp
 
+import boto3
 import io
+client = client = boto3.client(service_name='s3', endpoint_url='') #low-level functional API
 import cv2
 
 from transformer import LinearHelixTransformerBlock

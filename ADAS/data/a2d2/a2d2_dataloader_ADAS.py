@@ -10,7 +10,7 @@ from ADAS.data.utils.augmentation_3d import augment_and_scale_3d
 
 import boto3
 import io
-client = client = boto3.client(service_name='s3', endpoint_url='http://10.140.2.204:80') #low-level functional API
+client = client = boto3.client(service_name='s3', endpoint_url='') #low-level functional API
 import cv2
 
 def read_s3_pkl(bucket_name, pkl_path):
