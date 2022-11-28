@@ -192,6 +192,8 @@ class SemanticKITTISCN_sampling(SemanticKITTIBase):
         self.bottom_crop = bottom_crop
         self.fliplr = fliplr
         self.color_jitter = T.ColorJitter(*color_jitter) if color_jitter else None
+        from petrel_client.client import Client
+        self.client = Client('~/.petreloss.conf')
 
     def __getitem__(self, index):
         # index = int(index/20) * 20

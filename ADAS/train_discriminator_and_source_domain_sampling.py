@@ -21,6 +21,7 @@ from ADAS.common.utils.logger import setup_logger
 from ADAS.common.utils.metric_logger import MetricLogger
 from ADAS.common.utils.torch_util import set_random_seed
 from ADAS.models.build_sampling import build_model_2d, build_model_3d
+from ADAS.models.build_sampling_audi import build_model_2d_audi, build_model_3d_audi
 from ADAS.data.build_sampling import build_dataloader
 from ADAS.data.utils.validate import validate
 from ADAS.models.losses import entropy_loss
@@ -261,13 +262,19 @@ def train(cfg, output_dir='', run_name=''):
 
 
     # build 2d model
-    model_2d, train_metric_2d = build_model_2d(cfg)
+    if cfg.DATASET_SOURCE.SETTING == 'audi2kitti':
+        model_2d, train_metric_2d = build_model_2d_audi(cfg)
+    else:
+        model_2d, train_metric_2d = build_model_2d(cfg)
     logger.info('Build 2D model:\n{}'.format(str(model_2d)))
     num_params = sum(param.numel() for param in model_2d.parameters())
     print('#Parameters: {:.2e}'.format(num_params))
 
     # build 3d model
-    model_3d, train_metric_3d = build_model_3d(cfg)
+    if cfg.DATASET_SOURCE.SETTING == 'audi2kitti':
+        model_3d, train_metric_3d = build_model_3d_audi(cfg)
+    else:
+        model_3d, train_metric_3d = build_model_3d(cfg)
     logger.info('Build 3D model:\n{}'.format(str(model_3d)))
     num_params = sum(param.numel() for param in model_3d.parameters())
     print('#Parameters: {:.2e}'.format(num_params))
@@ -294,7 +301,7 @@ def train(cfg, output_dir='', run_name=''):
                                      logger=logger,
                                      postfix='_2d',
                                      max_to_keep=cfg.TRAIN.MAX_TO_KEEP)
-    checkpoint_data_2d = checkpointer_2d.load("/mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_2d_100000.pth", resume=cfg.AUTO_RESUME, resume_states=cfg.RESUME_STATES)
+    checkpoint_data_2d = checkpointer_2d.load(cfg.RESUME_PATH, resume=cfg.AUTO_RESUME, resume_states=cfg.RESUME_STATES)
     checkpointer_3d = CheckpointerV2(model_3d,
                                      optimizer=optimizer_3d,
                                      scheduler=scheduler_3d,
@@ -302,7 +309,7 @@ def train(cfg, output_dir='', run_name=''):
                                      logger=logger,
                                      postfix='_3d',
                                      max_to_keep=cfg.TRAIN.MAX_TO_KEEP)
-    checkpoint_data_3d = checkpointer_3d.load("/mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_3d_075000.pth", resume=cfg.AUTO_RESUME, resume_states=cfg.RESUME_STATES)
+    checkpoint_data_3d = checkpointer_3d.load(cfg.RESUME_PATH, resume=cfg.AUTO_RESUME, resume_states=cfg.RESUME_STATES)
     checkpointer_discriminator = CheckpointerV2(d_main,
                                      optimizer=optimizer_d_main,
                                      scheduler=scheduler_discriminator,

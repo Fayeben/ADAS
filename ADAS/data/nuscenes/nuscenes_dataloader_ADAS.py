@@ -5,8 +5,8 @@ import numpy as np
 from torch.utils.data import Dataset
 from torchvision import transforms as T
 
-from xmuda.data.utils.refine_pseudo_labels import refine_pseudo_labels
-from xmuda.data.utils.augmentation_3d import augment_and_scale_3d
+from ADAS.data.utils.refine_pseudo_labels import refine_pseudo_labels
+from ADAS.data.utils.augmentation_3d import augment_and_scale_3d
 
 import boto3
 import io
@@ -66,11 +66,11 @@ class NuScenesBase(Dataset):
         assert isinstance(split, tuple)
         print('Load', split)
         self.data = []
-        for curr_split in split:
-            # with open(osp.join(self.preprocess_dir, curr_split + '.pkl'), 'rb') as f:
-                # self.data.extend(pickle.load(f))
-            print(osp.join(self.preprocess_dir, curr_split + '.pkl'))
-            self.data.extend(read_s3_pkl("feiben", osp.join(self.preprocess_dir, curr_split + '.pkl')))
+        # for curr_split in split:
+        #     self.data.extend(read_s3_pkl("feiben", osp.join(self.preprocess_dir, curr_split + '.pkl')))
+        with open(osp.join('/mnt/lustre/feiben/xmuda/xmuda/save_pkl_3d/AT_usa2singapore_iteration-6000_sample_list.pkl'), 'rb') as f:
+            self.data.extend(pickle.load(f))
+        #     print('----------------')
         # print(self.data)
         self.pselab_data = None
         if pselab_paths:
@@ -127,7 +127,7 @@ class NuScenesBase(Dataset):
         return len(self.data)
 
 
-class NuScenesSCN_1T(NuScenesBase):
+class NuScenesSCN_ADAS(NuScenesBase):
     def __init__(self,
                  split,
                  preprocess_dir,

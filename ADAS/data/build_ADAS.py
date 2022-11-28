@@ -2,13 +2,13 @@ from torch.utils.data.sampler import RandomSampler, BatchSampler, SequentialSamp
 from torch.utils.data.dataloader import DataLoader, default_collate
 from yacs.config import CfgNode as CN
 
-from xmuda.common.utils.torch_util import worker_init_fn
-from xmuda.data.collate_1T_audi import get_collate_scn
-from xmuda.common.utils.sampler import IterationBasedBatchSampler
-from xmuda.data.nuscenes.nuscenes_dataloader_1T import NuScenesSCN_1T
-from xmuda.data.nuscenes.nuscenes_dataloader_1T import NuScenesSCN_1T
-from xmuda.data.a2d2.a2d2_dataloader import A2D2SCN
-from xmuda.data.semantic_kitti.semantic_kitti_dataloader_1T import SemanticKITTISCN_1T
+from ADAS.common.utils.torch_util import worker_init_fn
+from ADAS.data.collate import get_collate_scn
+from ADAS.common.utils.sampler import IterationBasedBatchSampler
+from ADAS.data.nuscenes.nuscenes_dataloader_ADAS import NuScenesSCN_ADAS
+from ADAS.data.nuscenes.nuscenes_dataloader import NuScenesSCN
+from ADAS.data.a2d2.a2d2_dataloader_ADAS import A2D2SCN
+from ADAS.data.semantic_kitti.semantic_kitti_dataloader import SemanticKITTISCN
 
 
 def build_dataloader(cfg, mode='train', domain='source', start_iteration=0, halve_batch_size=False):
@@ -32,22 +32,22 @@ def build_dataloader(cfg, mode='train', domain='source', start_iteration=0, halv
     if domain == 'target' and not is_train:
         dataset_kwargs.pop('pselab_paths')
     if dataset_cfg.TYPE == 'NuScenesSCN':
-        if mode == 'train':
-            dataset = NuScenesSCN_1T(split=split,
+        if is_train:
+            dataset = NuScenesSCN_ADAS(split=split,
                                 output_orig=not is_train,
                                 **dataset_kwargs,
                                 **augmentation)
         else:
-            dataset = NuScenesSCN_1T(split=split,
+            dataset = NuScenesSCN(split=split,
                                 output_orig=not is_train,
                                 **dataset_kwargs,
-                                **augmentation)
+                                **augmentation)            
     elif dataset_cfg.TYPE == 'A2D2SCN':
         dataset = A2D2SCN(split=split,
                           **dataset_kwargs,
                           **augmentation)
     elif dataset_cfg.TYPE == 'SemanticKITTISCN':
-        dataset = SemanticKITTISCN_1T(split=split,
+        dataset = SemanticKITTISCN(split=split,
                                    output_orig=not is_train,
                                    **dataset_kwargs,
                                    **augmentation)
@@ -60,8 +60,8 @@ def build_dataloader(cfg, mode='train', domain='source', start_iteration=0, halv
         collate_fn = default_collate
 
     if is_train:
-        # sampler = RandomSampler(dataset)
-        sampler = SequentialSampler(dataset)
+        sampler = RandomSampler(dataset)
+        # sampler = SequentialSampler(dataset)
         batch_sampler = BatchSampler(sampler, batch_size=batch_size, drop_last=cfg.DATALOADER.DROP_LAST)
         batch_sampler = IterationBasedBatchSampler(batch_sampler, cfg.SCHEDULER.MAX_ITERATION, start_iteration)
         dataloader = DataLoader(

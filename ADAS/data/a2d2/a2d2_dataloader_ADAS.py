@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms as T
 import json
 
-from xmuda.data.utils.augmentation_3d import augment_and_scale_3d
+from ADAS.data.utils.augmentation_3d import augment_and_scale_3d
 
 import boto3
 import io
@@ -121,7 +121,6 @@ class A2D2Base(Dataset):
         self.data = []
         # with open(osp.join('/mnt/lustre/feiben/xmuda/xmuda/save_pkl_2d_3d/AT_audi2kitti_iteration-85500_sample_list.pkl'), 'rb') as f:
         #     self.data.extend(pickle.load(f))
-        #     print('----------------')
         for curr_split in split:
             # with open(osp.join(self.preprocess_dir, 'preprocess', curr_split + '.pkl'), 'rb') as f:
             self.data.extend(read_s3_pkl("feiben", osp.join(self.preprocess_dir, curr_split + '.pkl')))

@@ -9,17 +9,17 @@ import warnings
 
 import torch
 
-from xmuda.common.utils.checkpoint import CheckpointerV2
-from xmuda.common.utils.logger import setup_logger
-from xmuda.common.utils.metric_logger import MetricLogger
-from xmuda.common.utils.torch_util import set_random_seed
-from xmuda.models.build import build_model_2d, build_model_3d
-from xmuda.data.build import build_dataloader
-from xmuda.data.utils.validate import validate
+from ADAS.common.utils.checkpoint import CheckpointerV2
+from ADAS.common.utils.logger import setup_logger
+from ADAS.common.utils.metric_logger import MetricLogger
+from ADAS.common.utils.torch_util import set_random_seed
+from ADAS.models.build import build_model_2d, build_model_3d
+from ADAS.data.build import build_dataloader
+from ADAS.data.utils.validate import validate
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='xMUDA test')
+    parser = argparse.ArgumentParser(description='ADAS test')
     parser.add_argument(
         '--cfg',
         dest='config_file',
@@ -98,8 +98,8 @@ def main():
 
     # load the configuration
     # import on-the-fly to avoid overwriting cfg
-    from xmuda.common.config import purge_cfg
-    from xmuda.config.xmuda import cfg
+    from ADAS.common.config import purge_cfg
+    from ADAS.config.xmuda import cfg
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     purge_cfg(cfg)

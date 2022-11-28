@@ -1,7 +1,7 @@
-2022-11-28 16:53:02,819 xmuda INFO: 1 GPUs available
-2022-11-28 16:53:02,820 xmuda INFO: Namespace(config_file='/mnt/petrelfs/feiben/ADAS-git/configs/a2d2_semantic_kitti/sampling.yaml', opts=['OUTPUT_DIR', '/mnt/petrelfs/feiben/ADAS-git/test'])
-2022-11-28 16:53:02,821 xmuda INFO: Loaded configuration file /mnt/petrelfs/feiben/ADAS-git/configs/a2d2_semantic_kitti/sampling.yaml
-2022-11-28 16:53:02,821 xmuda INFO: Running with config:
+2022-11-28 17:03:27,886 xmuda INFO: 1 GPUs available
+2022-11-28 17:03:27,887 xmuda INFO: Namespace(config_file='/mnt/petrelfs/feiben/ADAS-git/configs/a2d2_semantic_kitti/sampling.yaml', opts=['OUTPUT_DIR', '/mnt/petrelfs/feiben/ADAS-git/test'])
+2022-11-28 17:03:27,887 xmuda INFO: Loaded configuration file /mnt/petrelfs/feiben/ADAS-git/configs/a2d2_semantic_kitti/sampling.yaml
+2022-11-28 17:03:27,888 xmuda INFO: Running with config:
 AUTO_RESUME: True
 DATALOADER:
   DROP_LAST: True
@@ -103,7 +103,7 @@ VAL:
   LOG_PERIOD: 20
   METRIC: seg_iou
   PERIOD: 5000
-2022-11-28 16:53:14,689 xmuda.train INFO: Build 2D model:
+2022-11-28 17:03:34,991 xmuda.train INFO: Build 2D model:
 Net2DSeg(
   (net_2d): UNetResNet34(
     (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
@@ -282,149 +282,3 @@ Net2DSeg(
   )
   (linear): Linear(in_features=64, out_features=10, bias=True)
 )
-2022-11-28 16:53:14,735 xmuda.train INFO: Build 3D model:
-Net3DSeg(
-  (net_3d): UNetSCN(
-    (sparseModel): Sequential(
-      (0): InputLayer()
-      (1): SubmanifoldConvolution 1->16 C3
-      (2): Sequential(
-        (0): Sequential(
-          (0): BatchNormLeakyReLU(16,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-          (1): SubmanifoldConvolution 16->16 C3
-        )
-        (1): ConcatTable(
-          (0): Identity()
-          (1): Sequential(
-            (0): BatchNormLeakyReLU(16,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-            (1): Convolution 16->32 C2/2
-            (2): Sequential(
-              (0): Sequential(
-                (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                (1): SubmanifoldConvolution 32->32 C3
-              )
-              (1): ConcatTable(
-                (0): Identity()
-                (1): Sequential(
-                  (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                  (1): Convolution 32->48 C2/2
-                  (2): Sequential(
-                    (0): Sequential(
-                      (0): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                      (1): SubmanifoldConvolution 48->48 C3
-                    )
-                    (1): ConcatTable(
-                      (0): Identity()
-                      (1): Sequential(
-                        (0): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                        (1): Convolution 48->64 C2/2
-                        (2): Sequential(
-                          (0): Sequential(
-                            (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                            (1): SubmanifoldConvolution 64->64 C3
-                          )
-                          (1): ConcatTable(
-                            (0): Identity()
-                            (1): Sequential(
-                              (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                              (1): Convolution 64->80 C2/2
-                              (2): Sequential(
-                                (0): Sequential(
-                                  (0): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                  (1): SubmanifoldConvolution 80->80 C3
-                                )
-                                (1): ConcatTable(
-                                  (0): Identity()
-                                  (1): Sequential(
-                                    (0): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                    (1): Convolution 80->96 C2/2
-                                    (2): Sequential(
-                                      (0): Sequential(
-                                        (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                        (1): SubmanifoldConvolution 96->96 C3
-                                      )
-                                      (1): ConcatTable(
-                                        (0): Identity()
-                                        (1): Sequential(
-                                          (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                          (1): Convolution 96->112 C2/2
-                                          (2): Sequential(
-                                            (0): Sequential(
-                                              (0): BatchNormLeakyReLU(112,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                              (1): SubmanifoldConvolution 112->112 C3
-                                            )
-                                          )
-                                          (3): BatchNormLeakyReLU(112,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                          (4): Deconvolution 112->96 C2/2
-                                        )
-                                      )
-                                      (2): JoinTable()
-                                      (3): Sequential(
-                                        (0): BatchNormLeakyReLU(192,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                        (1): SubmanifoldConvolution 192->96 C3
-                                      )
-                                    )
-                                    (3): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                    (4): Deconvolution 96->80 C2/2
-                                  )
-                                )
-                                (2): JoinTable()
-                                (3): Sequential(
-                                  (0): BatchNormLeakyReLU(160,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                                  (1): SubmanifoldConvolution 160->80 C3
-                                )
-                              )
-                              (3): BatchNormLeakyReLU(80,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                              (4): Deconvolution 80->64 C2/2
-                            )
-                          )
-                          (2): JoinTable()
-                          (3): Sequential(
-                            (0): BatchNormLeakyReLU(128,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                            (1): SubmanifoldConvolution 128->64 C3
-                          )
-                        )
-                        (3): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                        (4): Deconvolution 64->48 C2/2
-                      )
-                    )
-                    (2): JoinTable()
-                    (3): Sequential(
-                      (0): BatchNormLeakyReLU(96,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                      (1): SubmanifoldConvolution 96->48 C3
-                    )
-                  )
-                  (3): BatchNormLeakyReLU(48,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                  (4): Deconvolution 48->32 C2/2
-                )
-              )
-              (2): JoinTable()
-              (3): Sequential(
-                (0): BatchNormLeakyReLU(64,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-                (1): SubmanifoldConvolution 64->32 C3
-              )
-            )
-            (3): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-            (4): Deconvolution 32->16 C2/2
-          )
-        )
-        (2): JoinTable()
-        (3): Sequential(
-          (0): BatchNormLeakyReLU(32,eps=0.0001,momentum=0.99,affine=True,leakiness=0)
-          (1): SubmanifoldConvolution 32->16 C3
-        )
-      )
-      (3): BatchNormReLU(16,eps=0.0001,momentum=0.99,affine=True)
-      (4): OutputLayer()
-    )
-  )
-  (linear): Linear(in_features=16, out_features=10, bias=True)
-)
-2022-11-28 16:53:16,266 xmuda.train INFO: Loading checkpoint from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_2d_100000.pth, MD5: 7132674fa505a226ac1667fe85a548cf
-2022-11-28 16:53:16,446 xmuda.train INFO: Loading optimizer from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_2d_100000.pth
-2022-11-28 16:53:16,564 xmuda.train INFO: Loading scheduler from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_2d_100000.pth
-2022-11-28 16:53:16,760 xmuda.train INFO: Loading checkpoint from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_3d_075000.pth, MD5: 74147c02ae6cc18018eda7a2721d62f1
-2022-11-28 16:53:16,787 xmuda.train INFO: Loading optimizer from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_3d_075000.pth
-2022-11-28 16:53:16,810 xmuda.train INFO: Loading scheduler from /mnt/lustre/feiben/xmuda/a2d2_semantic_kitti/baseline/model_3d_075000.pth
-2022-11-28 16:53:16,811 xmuda.train INFO: No checkpoint found. Initializing model from scratch
-2022-11-28 16:54:16,310 xmuda.train INFO: Start training from iteration 100000

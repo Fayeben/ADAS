@@ -1,8 +1,8 @@
-from xmuda.models.auda_arch_sourceonly import Net2DSeg, Net3DSeg
-from xmuda.models.metric import SegIoU
+from ADAS.models.arch_sampling_audi import Net2DSeg, Net3DSeg
+from ADAS.models.metric import SegIoU
 
 
-def build_model_2d(cfg):
+def build_model_2d_audi(cfg):
     model = Net2DSeg(num_classes=cfg.MODEL_2D.NUM_CLASSES,
                      backbone_2d=cfg.MODEL_2D.TYPE,
                      backbone_2d_kwargs=cfg.MODEL_2D[cfg.MODEL_2D.TYPE],
@@ -12,7 +12,7 @@ def build_model_2d(cfg):
     return model, train_metric
 
 
-def build_model_3d(cfg):
+def build_model_3d_audi(cfg):
     model = Net3DSeg(num_classes=cfg.MODEL_3D.NUM_CLASSES,
                      backbone_3d=cfg.MODEL_3D.TYPE,
                      backbone_3d_kwargs=cfg.MODEL_3D[cfg.MODEL_3D.TYPE],

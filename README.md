@@ -92,20 +92,26 @@ Please edit the script `xmuda/data/semantic_kitti/preprocess.py` as follows and 
 
 ## Model Zoo
 
-You can download the models with the scores below from
+You can download the models before ADAS from
 [this Google drive folder](https://drive.google.com/drive/folders/16MTKz4LOIwqQc3Vo6LAGrpiIC72hvggc?usp=sharing).
+And you also can download the models after ADAS from 
+[this Google drive folder](https://drive.google.com/drive/folders/12n9QbTw8IgYtnGoVIxp6q4ew9-eYVEoL?usp=share_link).
 
 ## Train discriminator and sampling
 You can run the training and source-domain sampling with
 ```
 $ cd <root dir of this repo>
 $ python adas/train_discriminator_and_source_domain_sampling.py --cfg=configs/nuscenes/usa_singapore/sampling.yaml  @/model_2d_065000.pth @/model_3d_095000.pth
+$ python adas/train_discriminator_and_source_domain_sampling.py --cfg=configs/nuscenes/day_night/sampling.yaml  @/model_2d_080000.pth @/model_3d_090000.pth
+$ python adas/train_discriminator_and_source_domain_sampling.py --cfg=configs/a2d2_semantic_kitti/sampling.yaml  @/model_2d_100000.pth @/model_3d_075000.pth
 ```
 
 You can run the training and target-domain sampling with
 ```
 $ cd <root dir of this repo>
 $ python adas/train_discriminator_and_target_domain_sampling.py --cfg=configs/nuscenes/usa_singapore/sampling.yaml  @/model_2d_065000.pth @/model_3d_095000.pth
+$ python adas/train_discriminator_and_target_domain_sampling.py --cfg=configs/nuscenes/day_night/sampling.yaml  @/model_2d_080000.pth @/model_3d_090000.pth
+$ python adas/train_discriminator_and_target_domain_sampling.py --cfg=configs/a2d2_semantic_kitti/sampling.yaml  @/model_2d_100000.pth @/model_3d_075000.pth
 ```
 
 The output will be written to `/home/<user>/workspace/outputs/ADAS/<config_path>` by 
@@ -118,20 +124,26 @@ automatically replaced with the config path.
 You need to modify the the nuscenes_dir of the config file (`configs/nuscenes/usa_singapore/baseline.yaml`) to the path of the sampled source data.
 Then train the baselines (with source-domain sampling) with:
 ```
-$ python adas/train_baseline_active_source_usa2singapore.py --cfg=configs/nuscenes/usa_singapore/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/nuscenes/usa_singapore/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/nuscenes/day_night/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/a2d2_semantic_kitti/baseline.yaml
 ```
 
 ### Train baseline with target-domain samping
 You need to modify the the nuscenes_dir of the config file (`configs/nuscenes/usa_singapore/baseline.yaml`) to the path of the target source data.
 Then train the baselines (with target-domain sampling) with:
 ```
-$ python adas/train_baseline_active_source_usa2singapore.py --cfg=configs/nuscenes/usa_singapore/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/nuscenes/usa_singapore/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/nuscenes/day_night/baseline.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/a2d2_semantic_kitti/baseline.yaml
 ```
 
 ### ADAS<sub>APL</sub>
 After having trained the baseline model, generate the pseudo-labels as follows:
 ```
 $ python adas/test.py --cfg=configs/nuscenes/usa_singapore/baseline.yaml --pselab @/model_2d_065000.pth @/model_3d_095000.pth DATASET_TARGET.TEST "('train_singapore',)"
+$ python adas/test.py --cfg=configs/nuscenes/day_night/baseline.yaml --pselab @/model_2d_080000.pth @/model_3d_090000.pth DATASET_TARGET.TEST "('train_singapore',)"
+$ python adas/test.py --cfg=configs/a2d2_semantic_kitti/baseline.yaml --pselab @/model_2d_100000.pth @/model_3d_075000.pth DATASET_TARGET.TEST "('train_singapore',)"
 ```
 The pseudo labels and maximum probabilities are saved as `.npy` file.
 
@@ -141,7 +153,7 @@ to match your path of the generated pseudo-labels.
 Then start the training. The pseudo-label refinement (discard less confident pseudo-labels) is done
 when the dataloader is initialized.
 ```
-$ python adas/train_baseline_active_source_usa2singapore.py --cfg=configs/nuscenes/usa_singapore/baseline_APL.yaml
+$ python adas/train_baseline_ADAS.py --cfg=configs/nuscenes/usa_singapore/baseline_APL.yaml
 ```
 
 ## Testing

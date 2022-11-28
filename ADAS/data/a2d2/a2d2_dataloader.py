@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms as T
 import json
 
-from xmuda.data.utils.augmentation_3d import augment_and_scale_3d
+from ADAS.data.utils.augmentation_3d import augment_and_scale_3d
 
 import boto3
 import io

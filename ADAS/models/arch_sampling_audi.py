@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from xmuda.models.resnet34_unet import UNetResNet34
-from xmuda.models.scn_unet import UNetSCN
+from ADAS.models.resnet34_unet import UNetResNet34
+from ADAS.models.scn_unet import UNetSCN
 
 from pathlib import Path
 class Net2DSeg(nn.Module):
@@ -41,10 +41,10 @@ class Net2DSeg(nn.Module):
         camera_path = data_batch['camera_path']
         points = data_batch['points']
         lidar_path = data_batch['lidar_path']
-        boxes = data_batch['boxes']
-        sample_token = data_batch['sample_token']
-        scene_name = data_batch['scene_name']
-        calib = data_batch['calib']
+        # boxes = data_batch['boxes']
+        # sample_token = data_batch['sample_token']
+        # scene_name = data_batch['scene_name']
+        # calib = data_batch['calib']
         # idx = Path(data_batch['lidar_path']).stem
         # 2D network
         x = self.net_2d(img)
@@ -70,7 +70,6 @@ class Net2DSeg(nn.Module):
         #     'seg_logit': x,
         #     'feautures_2d_full':features_2d,
         # }
-        print('2dshape',img_feats.shape)
         preds = {
             'feats': img_feats,
             'seg_logit': x,
@@ -83,10 +82,6 @@ class Net2DSeg(nn.Module):
             'camera_path': camera_path,
             'points': points,
             'lidar_path': lidar_path,
-            'boxes': boxes,
-            'sample_token': sample_token,
-            'scene_name': scene_name,
-            'calib': calib,
         }
 
         if self.dual_head:
@@ -121,19 +116,15 @@ class Net3DSeg(nn.Module):
     def forward(self, data_batch):
         feats = self.net_3d(data_batch['x'])
         x = self.linear(feats)
-        
-        img = data_batch['img']
-        img_indices = data_batch['img_indices']
+
         seg_label = data_batch['seg_label']
         img_indices = data_batch['img_indices']
         points_img = data_batch['points_img']
         camera_path = data_batch['camera_path']
         points = data_batch['points']
         lidar_path = data_batch['lidar_path']
-        boxes = data_batch['boxes']
-        sample_token = data_batch['sample_token']
-        scene_name = data_batch['scene_name']
-        calib = data_batch['calib']
+
+        img = data_batch['img']
 
         preds = {
             'feats': feats,
@@ -146,12 +137,8 @@ class Net3DSeg(nn.Module):
             'camera_path': camera_path,
             'points': points,
             'lidar_path': lidar_path,
-            'boxes': boxes,
-            'sample_token': sample_token,
-            'scene_name': scene_name,
-            'calib': calib,
         }
-        print('3dshape',feats.shape)
+        
         if self.dual_head:
             preds['seg_logit2'] = self.linear2(feats)
 
