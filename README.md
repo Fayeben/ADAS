@@ -1,6 +1,6 @@
 # ADAS: A Simple Active-and-Adaptive Baseline for Cross-Domain 3D Semantic Segmentation
 
-Official code for the paper.
+Code for the paper.
 
 <!-- ## Paper -->
 ![](./teaser.png)
