@@ -29,7 +29,7 @@ $ pip install --upgrade git+https://github.com/facebookresearch/SparseConvNet.gi
 
 Clone this repository and install it with pip. It will automatically install the nuscenes-devkit as a dependency.
 ```
-$ git clone https://github.com/valeoai/xmuda.git
+$ git clone git@github.com:Fayeben/ADAS.git
 $ cd xmuda
 $ pip install -ve .
 ```
@@ -169,4 +169,4 @@ You can also provide an absolute path without `@`.
 
 
 ## Acknowledgements
-Note that this code borrows from the [xMUDA](https://github.com/valeoai/xmuda) repo.
+Note that this code borrows from the [ADAS](https://github.com/valeoai/xmuda) repo.
